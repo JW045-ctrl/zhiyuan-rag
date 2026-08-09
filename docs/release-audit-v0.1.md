@@ -15,10 +15,11 @@
 | 冻结配置 | 完成 | Top K、Chunk、Embedding、阈值、Prompt、LLM、Rerank和测试标准不再修改。 |
 | 环境变量模板 | 通过 | `.env.example` 与 `.env.local.example` 只有空 Key。 |
 | Dify Chatflow DSL | 通过 | DSL 已导出；未发现真实密钥、Bearer值或本机绝对路径。 |
-| 许可证 | 完成 | 标准 MIT License；版权用户名保留待替换占位符。 |
+| 许可证 | 完成 | 标准 MIT License；版权署名为 `JW045-ctrl`。 |
 | 课程资料排除 | 通过 | Git 没有跟踪 PDF；课程截图、原始评估结果和内部候选诊断均被忽略。 |
 | README 本地路径 | 通过 | 仓库文件链接全部存在，没有 Windows 绝对路径或临时图片链接。 |
 | 敏感信息扫描 | 通过 | 当前公开候选与现有 Git 历史均未命中高置信度密钥、静态Bearer、数据库密码、私钥或Windows绝对路径。 |
+| Git 提交隐私 | 通过 | Author 与 Committer 统一使用 `JW045-ctrl` 和 GitHub noreply 邮箱，不公开个人 Gmail 地址。 |
 
 ## 最终工程验证
 
