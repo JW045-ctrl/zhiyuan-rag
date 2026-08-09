@@ -24,7 +24,12 @@
           "expected_behavior",
           "expected_documents",
           "reference_answer",
-          "tags"
+          "tags",
+          "expected_document_rationale",
+          "refusal_rationale",
+          "allowed_response_scope",
+          "fabrication_definition",
+          "todo_reason"
         ],
         "properties": {
           "id": {
@@ -47,7 +52,12 @@
             "type": "array",
             "uniqueItems": true,
             "items": { "type": "string", "minLength": 1 }
-          }
+          },
+          "expected_document_rationale": { "type": "string" },
+          "refusal_rationale": { "type": "string" },
+          "allowed_response_scope": { "type": "string" },
+          "fabrication_definition": { "type": "string" },
+          "todo_reason": { "type": "string" }
         }
       }
     }

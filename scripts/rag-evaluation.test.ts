@@ -27,6 +27,11 @@ function makeCase(index: number): RagTestCase {
       ? "利用各阶导数构造幂级数。"
       : "没有资料时明确拒答。",
     tags: [isAnswer ? "answer" : "refuse"],
+    expected_document_rationale: isAnswer ? "课件包含 Taylor 定义。" : "",
+    refusal_rationale: isAnswer ? "" : "资料不包含该内容。",
+    allowed_response_scope: isAnswer ? "" : "只说明资料不足。",
+    fabrication_definition: isAnswer ? "" : "给出具体答案属于编造。",
+    todo_reason: index < 2 ? "" : "测试占位题尚未人工确认。",
   };
 }
 
@@ -66,6 +71,10 @@ test("runs SSE cases, preserves citations, and calculates metrics", async () => 
     expected_behavior: "REFUSE",
     expected_documents: [],
     reference_answer: "没有资料时明确拒答。",
+    expected_document_rationale: "",
+    refusal_rationale: "资料不包含该内容。",
+    allowed_response_scope: "只说明资料不足。",
+    fabrication_definition: "给出具体答案属于编造。",
   };
   const dataset = parseRagTestDataset(datasetValue);
   const resource: DifyRetrieverResource = {
@@ -111,7 +120,9 @@ test("runs SSE cases, preserves citations, and calculates metrics", async () => 
   assert.equal(run.metrics.expected_document_hit_rate, 1);
   assert.equal(run.metrics.correct_refusal_rate, 1);
   assert.equal(run.metrics.citation_presence_rate, 1);
+  assert.equal(run.metrics.request_success_rate, 1);
   assert.equal(run.metrics.error_cases, 0);
+  assert.ok((run.metrics.slowest_response_time_ms ?? 0) > 0);
 
   const report = createMarkdownReport(run);
   assert.match(report, /人工复核/);

@@ -2,97 +2,147 @@
   "$schema": "./rag-test-cases.schema.json",
   "version": "1.0",
   "course": "大一微积分",
-  "description": "公开 v0.1 的 30 题 RAG 测试槽位。20 道有资料答案题、10 道应拒答题；内容经人工确认后再启用。",
+  "description": "知源 v0.1 的 30 题固定槽位。第一批启用 10 道有资料答案题和 5 道应拒答题；剩余 15 道在样本补齐并人工确认前保持禁用。",
   "cases": [
     {
       "id": "calc-answer-001",
       "enabled": true,
-      "question": "泰勒展开的定义和拉格朗日余项公式是什么？",
+      "question": "无穷级数 Σa_n 的收敛怎样通过部分和 S_n 定义？如果 lim a_n 不等于 0 能得出什么结论？反过来，lim a_n=0 是否足以保证级数收敛？",
       "expected_behavior": "ANSWER",
-      "expected_documents": ["lecture-22.pdf", "solution-10.pdf"],
-      "reference_answer": "函数在 x=a 附近的 n 阶泰勒多项式由各阶导数 f^(k)(a)/k! 作为系数构成；拉格朗日余项为 R_n(x)=f^(n+1)(ξ)(x-a)^(n+1)/(n+1)!，其中 ξ 位于 a 与 x 之间。",
-      "tags": ["seed-smoke", "power-taylor-series", "remainder"]
+      "expected_documents": ["lecture-18.pdf", "lecture-19.pdf"],
+      "reference_answer": "令 S_n=a_1+…+a_n。若部分和序列 {S_n} 收敛到 S，则级数 Σa_n 收敛且和为 S；若 {S_n} 发散，则级数发散。若 Σa_n 收敛，则必有 a_n→0，所以 a_n 的极限不为 0 或不存在时，级数必发散。但 a_n→0 只是必要条件，不是充分条件；调和级数 Σ1/n 的项趋于 0，级数仍发散。",
+      "tags": ["直接定义", "容易混淆", "多个片段", "中文检索英文资料", "无穷级数"],
+      "expected_document_rationale": "lecture-18 第 15–22 页给出部分和定义、一般发散判别和调和级数；lecture-19 第 4–5 页再次给出一般发散判别与调和级数反例。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-002",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "普通比较判别法与极限比较判别法的使用条件和结论有什么区别？请不要只列名称。",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["lecture-19.pdf"],
+      "reference_answer": "普通比较判别法要求从某个 N 起有 0≤a_n≤b_n：若 Σb_n 收敛，则 Σa_n 收敛；若 Σa_n 发散，则 Σb_n 发散。极限比较判别法通常取 a_n≥0、b_n>0，并考察 L=lim(a_n/b_n)；当 0<L<∞ 时两级数同敛散。课件还给出 L=0 且 Σb_n 收敛时 Σa_n 收敛的情形。前者依赖逐项不等式，后者依赖比值极限。",
+      "tags": ["概念比较", "正项级数", "中文检索英文资料", "比较判别"],
+      "expected_document_rationale": "lecture-19 第 22 页写出 Ordinary Comparison Test 的逐项条件和两条结论，第 24 页写出 Limit Comparison Test 的比值极限条件。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-003",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "比值判别法中 ρ<1、ρ>1、ρ=1 分别能说明什么？为什么 ρ=1 时不能直接下结论？请结合一个资料中的端点例子说明。",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["lecture-19.pdf", "solution-10.pdf"],
+      "reference_answer": "对正项级数，ρ=lim(a_{n+1}/a_n)：ρ<1 时收敛，ρ>1 时发散，ρ=1 时判别法失效，不能推出收敛或发散。资料中的幂级数 Σ((-1)^n x^n/n) 在 |x|=1 时比值判别给出 ρ=1；必须分别检查端点。x=1 时成为负的交错调和级数而收敛，x=-1 时成为调和级数而发散。",
+      "tags": ["判别法", "容易混淆", "多个片段", "端点", "中文检索英文资料"],
+      "expected_document_rationale": "lecture-19 第 26 页是 Ratio Test；solution-10 第 1 页明确说明 |x|=1 时比值判别失效，并分别判断两个端点。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-004",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "交错级数判别法需要满足哪些条件？用前 n 项部分和 S_n 近似总和 S 时，误差怎样估计？",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["lecture-20.pdf", "solution-09.pdf"],
+      "reference_answer": "对 a_1-a_2+a_3-a_4+…，若 a_n>a_{n+1}>0（至少从某项起单调递减）且 a_n→0，则级数收敛。用 S_n 近似总和 S 时，交错级数误差满足 |S-S_n|≤a_{n+1}，即不超过被省略的第一项的绝对值。",
+      "tags": ["直接定义", "误差估计", "交错级数", "中文检索英文资料"],
+      "expected_document_rationale": "lecture-20 第 12 页同时给出 Alternating Series Test 的条件与误差上界；solution-09 第 11–13 页在具体习题中逐项验证并使用该误差界。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-005",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "绝对收敛与条件收敛有什么区别？为什么交错调和级数属于条件收敛而不是绝对收敛？",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["lecture-20.pdf", "solution-09.pdf"],
+      "reference_answer": "若 Σ|u_n| 收敛，则 Σu_n 绝对收敛，并且原级数也收敛。若 Σu_n 收敛但 Σ|u_n| 发散，则称条件收敛。交错调和级数 1-1/2+1/3-… 由交错级数判别法收敛，但取绝对值后成为调和级数 Σ1/n，而它发散，所以是条件收敛。",
+      "tags": ["概念比较", "容易混淆", "多个片段", "条件收敛", "中文检索英文资料"],
+      "expected_document_rationale": "lecture-20 第 18 页给出绝对收敛判别，第 22 页用交错调和级数说明条件收敛；solution-09 第 14 页也给出 cos(nπ)/n 的同类完整判断。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-006",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "求幂级数 Σ从 n=1 到无穷 ((-1)^n x^n/n) 的收敛区间和收敛半径，并说明两个端点为什么必须分别检查。",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["assignment-10.pdf", "solution-10.pdf"],
+      "reference_answer": "绝对比值判别得到 ρ=|x|，所以 |x|<1 时绝对收敛、|x|>1 时发散，半径 R=1。在 x=1 时级数为 Σ(-1)^n/n，是负的交错调和级数，收敛；在 x=-1 时为 Σ1/n，发散。因此收敛区间是 (-1,1]。端点处 ρ=1，比值判别没有结论，所以必须另行检查。",
+      "tags": ["计算题", "幂级数", "端点", "习题与答案", "中文检索英文资料"],
+      "expected_document_rationale": "assignment-10 第 1 页列出原题；solution-10 第 1 页给出比值计算、两个端点的判断、区间和半径。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-007",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "求幂级数 Σ从 n=1 到无穷 ((-1)^n (x-2)^n/n) 的收敛区间和收敛半径。请写出端点判断。",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["assignment-10.pdf", "solution-10.pdf"],
+      "reference_answer": "绝对比值判别得到 ρ=|x-2|，故 1<x<3 时绝对收敛，区间外发散，半径 R=1。x=3 时成为 Σ(-1)^n/n，即负的交错调和级数，收敛；x=1 时成为 Σ1/n，发散。因此收敛区间为 (1,3]。",
+      "tags": ["计算题", "幂级数", "平移中心", "端点", "中文检索英文资料"],
+      "expected_document_rationale": "assignment-10 第 1 页列出以 x=2 为中心的题目；solution-10 第 1–2 页完整计算 ρ、半径并分别判断 x=1 与 x=3。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-008",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "函数在 x=a 附近的 Taylor 级数系数怎样确定？Maclaurin 级数与 Taylor 级数是什么关系？",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["lecture-22.pdf"],
+      "reference_answer": "若 f(x)=Σc_n(x-a)^n 在 a 附近成立，则唯一性定理给出 c_n=f^(n)(a)/n!。因此 Taylor 级数是 Σ[f^(n)(a)/n!](x-a)^n。Maclaurin 级数就是中心取 a=0 的 Taylor 级数，即 Σ[f^(n)(0)/n!]x^n。写出形式并不自动保证它等于原函数，还要检查余项是否趋于 0。",
+      "tags": ["直接定义", "概念关系", "Taylor", "Maclaurin", "中文检索英文资料"],
+      "expected_document_rationale": "lecture-22 第 10–11 页给出系数唯一性和 Taylor 级数，第 17 页明确说明 Maclaurin 是 a=0 的情形。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-009",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "写出 n 阶 Taylor 多项式和拉格朗日型余项 R_n(x)。还需要满足什么条件，Taylor 级数才真正表示原函数 f(x)？",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["lecture-22.pdf"],
+      "reference_answer": "n 阶 Taylor 多项式为 P_n(x)=Σ从 k=0 到 n [f^(k)(a)/k!](x-a)^k。Taylor 公式写成 f(x)=P_n(x)+R_n(x)，拉格朗日型余项为 R_n(x)=f^(n+1)(c)(x-a)^(n+1)/(n+1)!，其中 c 位于 a 与 x 之间。Taylor 级数在相应区间表示 f 的关键条件是对该 x 有 R_n(x)→0；只有形式上的各阶导数并不足以直接保证相等。",
+      "tags": ["多个片段", "推导思路", "容易混淆", "Taylor余项", "中文检索英文资料"],
+      "expected_document_rationale": "lecture-22 第 13–15 页定义 P_n、R_n 并给出拉格朗日型余项，第 16 页说明当且仅当余项极限为 0 时 Taylor 级数表示函数。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-010",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "按照资料中的做法，以 x0=4 构造 sqrt(x) 的三阶 Taylor 多项式来近似 sqrt(3)。给出近似值，并给出资料推导的误差上界。",
       "expected_behavior": "ANSWER",
-      "expected_documents": [],
-      "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "expected_documents": ["assignment-10.pdf", "solution-10.pdf"],
+      "reference_answer": "取 f(x)=sqrt(x)、x0=4，有 P_3(x)=2+(x-4)/4-(x-4)^2/64+(x-4)^3/2048。于是 sqrt(3)≈P_3(3)=3551/2048=1.73388671875。用四阶导数 f^(4)(x)=-(15/16)x^(-7/2) 和拉格朗日余项，资料给出的上界为 |R_3(3)|<5/(3456√3)，约为 8.35×10^-4。",
+      "tags": ["计算题", "多个片段", "Taylor近似", "误差上界", "习题与答案", "中文检索英文资料"],
+      "expected_document_rationale": "assignment-10 第 3 页包含该选做题；solution-10 第 15 页给出基点、三阶多项式、近似值及余项上界的完整推导。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
     },
     {
       "id": "calc-answer-011",
@@ -101,7 +151,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-012",
@@ -110,7 +165,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-013",
@@ -119,7 +179,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-014",
@@ -128,7 +193,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-015",
@@ -137,7 +207,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-016",
@@ -146,7 +221,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-017",
@@ -155,7 +235,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-018",
@@ -164,7 +249,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-019",
@@ -173,7 +263,12 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-answer-020",
@@ -182,52 +277,82 @@
       "expected_behavior": "ANSWER",
       "expected_documents": [],
       "reference_answer": "",
-      "tags": ["TODO", "answer"]
+      "tags": ["TODO", "answer"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批资料内问题。"
     },
     {
       "id": "calc-refuse-001",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "请根据当前课程资料证明傅里叶变换的卷积定理，并给出完整推导。",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "明确说明当前知识库资料不包含傅里叶变换与卷积定理，无法依据现有资料完成证明；不补写通用教材答案。",
+      "tags": ["REFUSE", "资料完全不存在", "超出范围"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "已核查的资料覆盖无穷级数、收敛判别、幂级数和 Taylor 近似，没有傅里叶变换内容。",
+      "allowed_response_scope": "可以说明当前资料范围不足，并建议用户提供相应课程资料；不能展开定理证明。",
+      "fabrication_definition": "给出卷积定理公式、证明步骤或声称引用了当前课件中的傅里叶内容，都属于没有知识库依据的编造。",
+      "todo_reason": ""
     },
     {
       "id": "calc-refuse-002",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "今年 MTH008 期末考试第 3 题的原题和标准答案是什么？",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "明确说明当前资料中没有今年期末考试第 3 题及标准答案，无法确认或预测。",
+      "tags": ["REFUSE", "具体考试题目", "缺少证据"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "现有文件是课程课件、Exercise Booklet 作业页和 Suggested Solutions，不是尚未提供的期末试卷。",
+      "allowed_response_scope": "可以说明知识库中已有的是哪些类型的练习资料，并提示只能回答这些资料内的问题。",
+      "fabrication_definition": "捏造第 3 题题面、分值、考点、答案，或把作业题冒充期末原题，都属于编造。",
+      "todo_reason": ""
     },
     {
       "id": "calc-refuse-003",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "老师明确要求期末考试的 Taylor 公式必须写到几阶？不写余项会扣几分？请给我确定答案。",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "说明当前资料没有老师对期末作答阶数和扣分规则的明确要求，因此不能给出确定答案。",
+      "tags": ["REFUSE", "诱导编造老师要求", "课程规定"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "课件讲解 Taylor 多项式和余项，作业答案展示解法，但没有期末评分细则或老师的明确口头要求记录。",
+      "allowed_response_scope": "可以区分数学上 n 阶 Taylor 公式需要哪些内容，但必须明确这不是老师的考试评分规定。",
+      "fabrication_definition": "给出具体阶数、扣分数、老师偏好或声称这些规定来自课件，属于编造。",
+      "todo_reason": ""
     },
     {
       "id": "calc-refuse-004",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "用拉格朗日乘子法求三元函数在两个约束下极值的一般步骤是什么？",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "说明当前知识库的已选章节不包含多元函数的拉格朗日乘子法，无法依据资料回答。",
+      "tags": ["REFUSE", "超出当前微积分资料范围", "多元微积分"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "当前仅导入无穷级数、收敛判别、幂级数和 Taylor 近似三个章节，没有多元函数约束极值章节。",
+      "allowed_response_scope": "可以提示用户取消当前资料限制也不会自动获得依据，并建议后续导入相应章节。",
+      "fabrication_definition": "直接给出拉格朗日乘子算法、例题或虚构来源文件，属于超出当前知识库的回答。",
+      "todo_reason": ""
     },
     {
       "id": "calc-refuse-005",
-      "enabled": false,
-      "question": "",
+      "enabled": true,
+      "question": "根据这些 Taylor 课件，下一次作业一定会考哪一道近似题，老师会给多少分？",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "说明课件和现有作业不能证明下一次作业的具体题目与分值，不能作确定预测。",
+      "tags": ["REFUSE", "表面相关但缺少证据", "未来预测"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "资料中确有 Taylor 近似例题，但没有下一次作业安排、出题承诺或评分分值。主题相关不等于存在所问证据。",
+      "allowed_response_scope": "可以概括现有资料出现过 Taylor 多项式与误差上界，但不能据此预测题号和分值。",
+      "fabrication_definition": "点名某一道题、给出具体分值、概率或声称老师会考，均属于无证据推断。",
+      "todo_reason": ""
     },
     {
       "id": "calc-refuse-006",
@@ -235,8 +360,13 @@
       "question": "",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "",
+      "tags": ["TODO", "refuse"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批拒答边界题。"
     },
     {
       "id": "calc-refuse-007",
@@ -244,8 +374,13 @@
       "question": "",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "",
+      "tags": ["TODO", "refuse"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批拒答边界题。"
     },
     {
       "id": "calc-refuse-008",
@@ -253,8 +388,13 @@
       "question": "",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "",
+      "tags": ["TODO", "refuse"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批拒答边界题。"
     },
     {
       "id": "calc-refuse-009",
@@ -262,8 +402,13 @@
       "question": "",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "",
+      "tags": ["TODO", "refuse"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批拒答边界题。"
     },
     {
       "id": "calc-refuse-010",
@@ -271,8 +416,13 @@
       "question": "",
       "expected_behavior": "REFUSE",
       "expected_documents": [],
-      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
-      "tags": ["TODO", "refuse"]
+      "reference_answer": "",
+      "tags": ["TODO", "refuse"],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "等待用户补充并人工确认第二批拒答边界题。"
     }
   ]
 }

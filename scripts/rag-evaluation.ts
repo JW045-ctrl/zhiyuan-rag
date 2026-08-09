@@ -14,6 +14,11 @@ export interface RagTestCase {
   expected_documents: string[];
   reference_answer: string;
   tags: string[];
+  expected_document_rationale: string;
+  refusal_rationale: string;
+  allowed_response_scope: string;
+  fabrication_definition: string;
+  todo_reason: string;
 }
 
 export interface RagTestDataset {
@@ -50,6 +55,7 @@ export interface RagEvaluationMetrics {
   attempted_cases: number;
   successful_cases: number;
   error_cases: number;
+  request_success_rate: number | null;
   expected_document_hit_rate: number | null;
   expected_document_hits: number;
   expected_document_cases: number;
@@ -60,6 +66,7 @@ export interface RagEvaluationMetrics {
   answer_cases_with_citations: number;
   answer_cases: number;
   average_response_time_ms: number | null;
+  slowest_response_time_ms: number | null;
 }
 
 export interface RagEvaluationRun {
@@ -143,6 +150,17 @@ export function parseRagTestDataset(value: unknown): RagTestDataset {
     assertString(rawCase.id, `${path}.id`);
     assertString(rawCase.question, `${path}.question`);
     assertString(rawCase.reference_answer, `${path}.reference_answer`);
+    assertString(
+      rawCase.expected_document_rationale,
+      `${path}.expected_document_rationale`,
+    );
+    assertString(rawCase.refusal_rationale, `${path}.refusal_rationale`);
+    assertString(rawCase.allowed_response_scope, `${path}.allowed_response_scope`);
+    assertString(
+      rawCase.fabrication_definition,
+      `${path}.fabrication_definition`,
+    );
+    assertString(rawCase.todo_reason, `${path}.todo_reason`);
 
     if (!/^[a-z0-9][a-z0-9_-]*$/.test(rawCase.id)) {
       throw new Error(`${path}.id 只能包含小写字母、数字、下划线和连字符`);
@@ -180,6 +198,11 @@ export function parseRagTestDataset(value: unknown): RagTestDataset {
       expected_documents: rawCase.expected_documents,
       reference_answer: rawCase.reference_answer,
       tags: rawCase.tags,
+      expected_document_rationale: rawCase.expected_document_rationale,
+      refusal_rationale: rawCase.refusal_rationale,
+      allowed_response_scope: rawCase.allowed_response_scope,
+      fabrication_definition: rawCase.fabrication_definition,
+      todo_reason: rawCase.todo_reason,
     };
 
     if (testCase.enabled) {
@@ -199,6 +222,28 @@ export function parseRagTestDataset(value: unknown): RagTestDataset {
           `${path}.expected_documents：启用的 ANSWER 题至少需要一个预期文档`,
         );
       }
+
+      if (
+        testCase.expected_behavior === "ANSWER" &&
+        !testCase.expected_document_rationale.trim()
+      ) {
+        throw new Error(
+          `${path}.expected_document_rationale：启用的 ANSWER 题必须说明预期文档依据`,
+        );
+      }
+
+      if (
+        testCase.expected_behavior === "REFUSE" &&
+        (!testCase.refusal_rationale.trim() ||
+          !testCase.allowed_response_scope.trim() ||
+          !testCase.fabrication_definition.trim())
+      ) {
+        throw new Error(
+          `${path}：启用的 REFUSE 题必须填写拒答原因、允许范围和编造定义`,
+        );
+      }
+    } else if (!testCase.todo_reason.trim()) {
+      throw new Error(`${path}.todo_reason：未启用题必须说明 TODO 原因`);
     }
 
     return testCase;
@@ -278,11 +323,17 @@ export function calculateMetrics(results: RagCaseResult[]): RagEvaluationMetrics
             ) / results.length
           ).toFixed(2),
         );
+  const successfulCases = results.filter((result) => result.error === null).length;
+  const slowestResponseTime =
+    results.length === 0
+      ? null
+      : Math.max(...results.map((result) => result.response_time_ms));
 
   return {
     attempted_cases: results.length,
-    successful_cases: results.filter((result) => result.error === null).length,
+    successful_cases: successfulCases,
     error_cases: results.filter((result) => result.error !== null).length,
+    request_success_rate: calculateRate(successfulCases, results.length),
     expected_document_hit_rate: calculateRate(
       expectedDocumentHits,
       expectedDocumentResults.length,
@@ -299,6 +350,7 @@ export function calculateMetrics(results: RagCaseResult[]): RagEvaluationMetrics
     answer_cases_with_citations: answerCasesWithCitations,
     answer_cases: answerResults.length,
     average_response_time_ms: averageResponseTime,
+    slowest_response_time_ms: slowestResponseTime,
   };
 }
 
@@ -485,10 +537,12 @@ export function createMarkdownReport(run: RagEvaluationRun): string {
     "",
     "| 指标 | 结果 | 分子 / 分母 |",
     "| --- | ---: | ---: |",
+    `| 请求成功率 | ${formatRate(metrics.request_success_rate)} | ${metrics.successful_cases} / ${metrics.attempted_cases} |`,
     `| 预期资料命中率 | ${formatRate(metrics.expected_document_hit_rate)} | ${metrics.expected_document_hits} / ${metrics.expected_document_cases} |`,
     `| 正确拒答率（规则检测） | ${formatRate(metrics.correct_refusal_rate)} | ${metrics.correct_refusals} / ${metrics.refusal_cases} |`,
     `| 引用存在率 | ${formatRate(metrics.citation_presence_rate)} | ${metrics.answer_cases_with_citations} / ${metrics.answer_cases} |`,
     `| 平均响应时间 | ${metrics.average_response_time_ms ?? "N/A"} ms | ${metrics.attempted_cases} 题 |`,
+    `| 最慢响应时间 | ${metrics.slowest_response_time_ms ?? "N/A"} ms | 单题最大值 |`,
     `| 请求错误 | ${metrics.error_cases} | ${metrics.error_cases} / ${metrics.attempted_cases} |`,
     "",
     "> 正确拒答率只依据公开的拒答短语规则计算，不是 LLM 评分。答案忠实度、引用正确性和拒答合理性必须人工复核。",
@@ -507,6 +561,10 @@ export function createMarkdownReport(run: RagEvaluationRun): string {
       `- 问题：${markdownText(result.question)}`,
       `- 预期行为：${result.expected_behavior}`,
       `- 预期文档：${result.expected_documents.length > 0 ? result.expected_documents.map(markdownText).join(", ") : "无"}`,
+      `- 预期文档依据：${markdownText(result.expected_document_rationale || "不适用")}`,
+      `- 拒答原因：${markdownText(result.refusal_rationale || "不适用")}`,
+      `- 允许回答范围：${markdownText(result.allowed_response_scope || "不适用")}`,
+      `- 何种表现属于编造：${markdownText(result.fabrication_definition || "不适用")}`,
       `- 自动命中：${result.auto_checks.expected_document_hit === null ? "N/A" : result.auto_checks.expected_document_hit ? "是" : "否"}`,
       `- 检测到拒答：${result.auto_checks.refusal_detected ? "是" : "否"}`,
       `- 引用数量：${result.retriever_resources.length}`,

@@ -1,6 +1,6 @@
 # RAG 评估数据集
 
-`rag-test-cases.json` 固定提供 30 个测试槽位：20 道 `ANSWER` 与 10 道 `REFUSE`。其中 `calc-answer-001` 是用于验证运行器链路的种子题，其余未经确认的槽位默认关闭。
+`rag-test-cases.json` 固定提供 30 个测试槽位：20 道 `ANSWER` 与 10 道 `REFUSE`。第一批启用 10 道 `ANSWER` 和 5 道 `REFUSE`；剩余题目在资料与人工参考答案确认前保持关闭。
 
 ## 填写规则
 
@@ -13,8 +13,13 @@
 - `reference_answer`：人工整理的要点答案，拒答题填写期望的拒答原则；
 - `tags`：章节、题型、难度或来源等标签；
 - `enabled`：题目经人工核对后设为 `true`。
+- `expected_document_rationale`：`ANSWER` 题为什么预期命中这些文件；
+- `refusal_rationale`：`REFUSE` 题为什么在当前知识库中不应回答；
+- `allowed_response_scope`：拒答时仍允许说明到什么程度；
+- `fabrication_definition`：哪些具体表现属于无依据编造；
+- `todo_reason`：关闭题目的待办原因，启用题保持空字符串。
 
-启用 `ANSWER` 题前，`question`、`reference_answer` 和至少一个 `expected_documents` 都必须填写。启用 `REFUSE` 题前必须填写 `question` 和拒答原则，`expected_documents` 通常保持空数组。
+启用 `ANSWER` 题前，`question`、`reference_answer`、`expected_document_rationale` 和至少一个 `expected_documents` 都必须填写。启用 `REFUSE` 题前必须填写 `question`、拒答原则、允许范围和编造定义，`expected_documents` 保持空数组。关闭题必须填写 `todo_reason`。
 
 ## 运行
 

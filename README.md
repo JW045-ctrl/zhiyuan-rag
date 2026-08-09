@@ -137,7 +137,7 @@ npm.cmd run rag:evaluate -- --case calc-answer-001
 
 结果输出到 `evaluation/results/`，包括完整 JSON 和人工复核 Markdown。该目录可能包含课程原文片段，默认不提交到 Git。
 
-详细字段和填写规则见 [evaluation/README.md](evaluation/README.md)。发布审计见 [docs/release-audit-v0.1.md](docs/release-audit-v0.1.md)。
+详细字段和填写规则见 [evaluation/README.md](evaluation/README.md)。发布审计见 [docs/release-audit-v0.1.md](docs/release-audit-v0.1.md)。项目的重要选择记录在 [docs/project-decisions.md](docs/project-decisions.md)，非技术术语解释见 [docs/project-glossary.md](docs/project-glossary.md)，首轮 15 题结果分析见 [docs/baseline-analysis.md](docs/baseline-analysis.md)。
 
 ## 目录概览
 
