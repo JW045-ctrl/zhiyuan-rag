@@ -43,3 +43,9 @@ npm.cmd run rag:evaluate
 - `rag-eval-<时间>.md`：自动指标、逐题答案、引用摘要和人工评分清单。
 
 结果可能包含受版权约束的课程原文片段，因此默认被 Git 忽略。
+
+## v0.1 最终基线
+
+当前30题中启用15题：10道 ANSWER 和5道 REFUSE。v0.1 已冻结题目与严格证据标准，不再通过改题迎合当前结果。
+
+最终公开报告见 [`docs/v0.1-final-evaluation.md`](../docs/v0.1-final-evaluation.md)。公开报告只保留指标、失败分类和必要说明；包含课程原文的原始 JSON 与 Markdown 继续只保存在本地。

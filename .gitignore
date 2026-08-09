@@ -37,6 +37,15 @@ yarn-error.log*
 !/evaluation/results/.gitkeep
 /evaluation/rag-test-cases.local.json
 
+# internal evaluation working notes (may contain course excerpts or local IDs)
+/docs/chatflow-top-k-4-vs-8-gate-diagnosis.md
+/docs/chunk-rebuild-lecture18-evaluation.md
+/docs/chunk-rebuild-plan.md
+/docs/evaluation-human-review-v1.md
+/docs/rag-evaluation-knowledge-top-k-2-vs-10.md
+/docs/rag-evaluation-top-k-4-vs-6.md
+/docs/retrieval-candidate-diagnosis.md
+
 # temporary and tool-generated files
 /tmp
 /.tmp
