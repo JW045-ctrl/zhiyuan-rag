@@ -100,7 +100,42 @@ flowchart LR
 
 ## 零基础快速开始
 
-### 1. 准备环境
+### 1. 克隆仓库
+
+在 PowerShell 中执行：
+
+```powershell
+git clone https://github.com/JW045-ctrl/zhiyuan-rag.git
+Set-Location .\zhiyuan-rag
+```
+
+### 2. 先分清两个目标
+
+> [!IMPORTANT]
+> **运行网站代码**和**从零恢复完整 Dify 知识库**不是同一件事。网站可以从本仓库安装、测试和构建，但仅导入 DSL 不会自动恢复模型、课程资料、知识库索引或应用密钥。
+
+本仓库不包含：
+
+- 模型供应商凭据；
+- 已建好的 Dify 知识库；
+- 课程 PDF；
+- 课程资料内容；
+- Dify 应用 API Key；
+- 本地 Dify 数据库。
+
+如果只想运行网站代码，需要一个已经发布并可以访问的 Dify Chatflow，以及该应用自己的 API Key。
+
+如果要从零恢复完整 Dify 问答环境，导入仓库中的 DSL 后仍需：
+
+1. 配置自己的模型供应商和模型凭据；
+2. 新建知识库；
+3. 上传自己有权使用的资料；
+4. 将 Chatflow 的知识检索节点重新绑定到新知识库；
+5. 发布应用并创建自己的 API Key。
+
+具体步骤见 [Dify Chatflow 搭建说明](#dify-chatflow-搭建说明)。
+
+### 3. 准备环境
 
 - Windows 10/11 与 PowerShell；
 - Node.js 20.9 或更高版本；
@@ -108,23 +143,24 @@ flowchart LR
 - 已启动的 Dify 1.16.1；
 - 一个由 Dify 发布的 Chatflow 应用 API Key。
 
-### 2. 安装网站依赖
+### 4. 安装网站依赖
 
-下载或克隆仓库后，在 PowerShell 进入项目目录：
-
-```powershell
-Set-Location .\zhiyuan
-npm.cmd ci
-```
-
-如果网络需要本机 VPN 代理，可只为当前 PowerShell 会话设置；端口请以自己的电脑为准：
+如果当前网络确实需要代理，请在运行 `npm ci` **之前**设置。代理端口必须以自己的代理软件为准；下面的环境变量只作用于当前 PowerShell 窗口，不会永久修改系统设置：
 
 ```powershell
 $env:HTTP_PROXY='http://127.0.0.1:7897'
 $env:HTTPS_PROXY='http://127.0.0.1:7897'
 ```
 
-### 3. 创建本地环境变量
+不需要代理时请跳过上面的两行。然后安装锁定版本的依赖：
+
+```powershell
+npm.cmd ci
+```
+
+安装时，npm 可能提示 `esbuild` 的安装脚本尚未列入 `allowScripts` 审阅清单。该提示不是本次验证发现的安全漏洞：本次 `npm ci`、测试和构建均成功，npm 审计结果为0个已知漏洞。它也不代表依赖永远没有风险，后续升级依赖时仍应继续审阅；新用户不必因为这一条提示误以为整个安装已经失败。
+
+### 5. 创建本地环境变量
 
 ```powershell
 Copy-Item .env.example .env.local
@@ -139,7 +175,23 @@ DIFY_API_KEY=在这里填写自己的Dify应用Key
 
 `.env.local` 已被 Git 忽略。请勿添加 `NEXT_PUBLIC_` 前缀，也不要把真实 Key 贴进 Issue、截图或提交记录。
 
-### 4. 启动网站
+### 6. 安装后的自检
+
+下面四条命令不会运行15题付费评估：
+
+```powershell
+npm.cmd run test
+npm.cmd run typecheck
+npm.cmd run build
+npm.cmd run rag:evaluate:check
+```
+
+- `test`：检查 SSE 解析、引用去重、Markdown 和 LaTeX 渲染等自动测试；
+- `typecheck`：检查 TypeScript 类型错误；
+- `build`：确认 Next.js 可以生成生产构建；
+- `rag:evaluate:check`：只检查测试集 JSON 格式和启用题数量，不调用 Dify 或模型。
+
+### 7. 启动网站
 
 ```powershell
 npm.cmd run dev
@@ -151,6 +203,19 @@ npm.cmd run dev
 - AI 学习助手：<http://127.0.0.1:3000/assistant>
 
 如果3000端口被占用，以终端显示的实际端口为准。
+
+## 分享项目之前
+
+`.env.local` 可能包含真实的 Dify API Key；`.next` 是 Next.js 生成的本地构建与开发缓存，其中可能保留服务端环境值。不要直接压缩整个开发目录发送给他人，优先分享 GitHub 仓库地址。
+
+如需清理本地副本，可以在项目目录执行：
+
+```powershell
+Remove-Item .env.local -ErrorAction SilentlyContinue
+Remove-Item .next -Recurse -Force -ErrorAction SilentlyContinue
+```
+
+这些命令不会删除仓库中的 `.env.example`。
 
 ## Dify Chatflow 搭建说明
 
@@ -187,6 +252,8 @@ scripts/                   RAG 批量评估脚本
 docs/                      决策、术语、审计与最终评估文档
 data/resources/            本地资料目录说明；真实 PDF 不提交
 ```
+
+`next-env.d.ts` 是 Next.js 自动生成的类型声明文件，已被 Git 忽略，不需要人工维护。运行 `next dev`、`next build` 或 `next typegen` 时，Next.js 会按当前环境重新生成它；`tsconfig.json` 仍需包含该文件和 `.next/types/**/*.ts` 等生成类型路径。
 
 ## RAG 评估结果
 
@@ -285,5 +352,3 @@ npm.cmd run rag:evaluate
 - MIT License 仅适用于本仓库原创的代码、文档和 Dify 配置；
 - 不包含课程 PDF、课程原文或其他未提交的第三方资料；
 - 项目使用的第三方依赖仍遵循各自的许可证。
-
-发布前请把 `LICENSE` 中的 `JW045-ctrl` 替换为实际 GitHub 用户名。
