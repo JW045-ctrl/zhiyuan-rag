@@ -1,0 +1,570 @@
+{
+  "$schema": "../../../evaluation/rag-test-cases.schema.json",
+  "version": "1.0",
+  "course": "悦享咖啡会员小程序2.0升级项目",
+  "description": "知源 v0.2 单项目交付知识助手评估集。复用现有30槽位格式，本轮启用10道ANSWER和5道REFUSE；其余15个槽位保持禁用，等待后续另行设计和人工确认。",
+  "cases": [
+    {
+      "id": "project-answer-001",
+      "enabled": true,
+      "question": "截至2032年10月5日，悦享会员2.0项目目前处于什么阶段？后面的验收、上线和会员节是否已经完成？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "project-overview.md"
+      ],
+      "reference_answer": "截至2032年10月5日，项目处于内部测试、缺陷修复和客户验收准备阶段。客户验收版本提交、正式生产上线和秋季会员节均尚未发生。",
+      "tags": [
+        "ANSWER",
+        "单文档事实",
+        "当前阶段"
+      ],
+      "expected_document_rationale": "project-overview.md 的“当前阶段”小节直接说明知识截止时间、当前阶段以及三个后续事项均尚未发生。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-002",
+      "enabled": true,
+      "question": "客户在本期项目中最重视哪三项要求？其中最高优先级是什么？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "scope-and-requirements.md"
+      ],
+      "reference_answer": "客户最重视会员数据必须准确、必须按时上线、核心流程必须简单且稳定三项要求。其中会员数据准确是最高优先级要求。",
+      "tags": [
+        "ANSWER",
+        "单文档事实",
+        "客户重点"
+      ],
+      "expected_document_rationale": "scope-and-requirements.md 的“客户最重视的三项要求”小节完整列出三项要求，并明确会员数据准确为最高优先级。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-003",
+      "enabled": true,
+      "question": "截至2032年10月5日，优惠券与积分、会员等级折扣之间的最终叠加规则是什么？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "scope-and-requirements.md"
+      ],
+      "reference_answer": "每笔订单最多使用一张优惠券；优惠券不能与积分抵扣同时使用；会员等级折扣可以与优惠券同时生效；特殊活动券以券面明确规则为准。2032年9月22日之前与这些内容冲突的早期规则已经失效。",
+      "tags": [
+        "ANSWER",
+        "单文档事实",
+        "优惠券",
+        "最终规则"
+      ],
+      "expected_document_rationale": "scope-and-requirements.md 是优惠券最终规则的主要维护文档，直接给出四条当前有效规则和早期冲突规则已失效的状态。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-004",
+      "enabled": true,
+      "question": "外卖配送在2032年8月21日启动会时是什么状态，后来为什么移出本期？这一决定与正式上线目标有什么关系？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "meeting-01-kickoff.md",
+        "change-log.md"
+      ],
+      "reference_answer": "2032年8月21日启动会时，外卖配送仍处于范围评估中，是否纳入本期尚待最终决定。2032年8月24日，考虑到配送范围、费用、骑手接口、超时、状态和售后责任等额外范围，项目决定本期只支持到店自取，将外卖配送移出本期，以控制范围并保护2032年10月20日上线目标；该决定不承诺外卖配送的未来开发日期。",
+      "tags": [
+        "ANSWER",
+        "多文档",
+        "历史时点",
+        "范围变更",
+        "外卖配送"
+      ],
+      "expected_document_rationale": "meeting-01-kickoff.md 证明2032年8月21日当时仍在评估；change-log.md 记录2032年8月24日的最终决定、原因、范围影响和上线目标。两份文档缺一不可。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-005",
+      "enabled": true,
+      "question": "2032年9月7日批准的会员等级进度显示变更包含什么，到了9月11日原型评审时确认了哪些流程和后续影响？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "change-log.md",
+        "meeting-02-prototype-review.md"
+      ],
+      "reference_answer": "2032年9月7日批准的变更要求增加距离下一等级所需积分、当前升级进度，以及当前和下一等级权益简要说明。2032年9月11日原型评审确认了登录、会员中心、优惠券、门店查询和下单五类核心流程，并确认主要页面结构；客户提出视觉和操作修改。该变更需要调整会员中心原型和页面、增加相关显示与测试，但不延长最终工期。",
+      "tags": [
+        "ANSWER",
+        "多文档",
+        "会员等级",
+        "需求变更",
+        "原型评审"
+      ],
+      "expected_document_rationale": "change-log.md 记录变更内容、影响和工期结论；meeting-02-prototype-review.md 记录9月11日确认的五类流程、页面结构与评审语境。两份文档共同支持完整答案。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-006",
+      "enabled": true,
+      "question": "优惠券叠加规则在2032年9月22日发生了什么变化？当前有效规则是什么，这次变更要求更新哪些项目内容？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "change-log.md",
+        "scope-and-requirements.md"
+      ],
+      "reference_answer": "早期方案允许部分优惠券与积分抵扣同时使用。2032年9月22日变更后，每笔订单最多使用一张优惠券，优惠券不能与积分抵扣同时使用，会员等级折扣可以与优惠券同时生效，特殊活动券以券面明确规则为准，早期冲突规则失效。项目需要更新优惠券规则说明、结算逻辑、测试用例和用户操作说明。",
+      "tags": [
+        "ANSWER",
+        "多文档",
+        "优惠券",
+        "版本规则",
+        "变更影响"
+      ],
+      "expected_document_rationale": "change-log.md 提供早期设想、变更日期和项目影响；scope-and-requirements.md 提供唯一维护的四条当前最终规则。两份文档共同回答变化过程、当前规则和影响。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-007",
+      "enabled": true,
+      "question": "项目正式生产上线定在什么时候？截至2032年10月5日，这项工作处于已完成还是计划状态？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "milestones-and-deliverables.md"
+      ],
+      "reference_answer": "正式生产上线计划于2032年10月20日完成。截至2032年10月5日，该事项仍是计划，尚未发生。",
+      "tags": [
+        "ANSWER",
+        "时间判断",
+        "未来计划",
+        "正式上线"
+      ],
+      "expected_document_rationale": "milestones-and-deliverables.md 的权威时间线和“上线与会员节”小节直接给出正式上线日期及截至知识截止时间尚未发生的状态。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-008",
+      "enabled": true,
+      "question": "2032年9月30日的完整功能演示能否视为正式上线或最终验收？当时客户验收版本是什么状态？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "meeting-03-midterm-review.md"
+      ],
+      "reference_answer": "不能。2032年9月30日会议只是完整功能演示与中期评审，核心功能完成主要开发且会员、门店和支付接口完成主要联调，但主要联调完成不代表所有缺陷已解决，也不代表客户已验收。客户验收尚未完成，验收版本仍计划于2032年10月12日提交。",
+      "tags": [
+        "ANSWER",
+        "时间判断",
+        "会议纪要",
+        "验收状态"
+      ],
+      "expected_document_rationale": "meeting-03-midterm-review.md 明确该会议不是正式上线或最终验收，并记录主要开发、联调状态及10月12日验收版本仍为计划事项。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-009",
+      "enabled": true,
+      "question": "风险清单中哪些风险直接提到可能影响客户验收版本或验收准备？结合里程碑说明验收版本计划何时提交、目前是否完成。",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "risk-register.md",
+        "milestones-and-deliverables.md"
+      ],
+      "reference_answer": "门店和收银接口交付延迟可能影响测试进度和客户验收版本；营销规则继续变化可能使验收准备受到影响。客户验收版本计划于2032年10月12日提交，截至2032年10月5日尚未完成。风险已被记录不等于风险已经发生。",
+      "tags": [
+        "ANSWER",
+        "风险与里程碑",
+        "客户验收"
+      ],
+      "expected_document_rationale": "risk-register.md 说明R-02和R-03对客户验收版本或验收准备的可能影响；milestones-and-deliverables.md 给出验收版本计划日期和未完成状态。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-010",
+      "enabled": true,
+      "question": "这个项目已经确认的性能验收指标有哪些？这些指标能否被说成行业统一标准？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [
+        "acceptance-criteria.md"
+      ],
+      "reference_answer": "在约定测试环境下，登录、会员中心、优惠券和门店等核心页面95%的请求应在2.5秒内完成；300名用户同时操作时核心流程不能大面积失败；支付成功后订单应在10秒内出现在订单列表。这些是本虚构项目约定指标，不是行业统一标准，测试环境的具体硬件与网络配置尚未定义。",
+      "tags": [
+        "ANSWER",
+        "验收指标",
+        "性能"
+      ],
+      "expected_document_rationale": "acceptance-criteria.md 的“性能验收”小节完整列出三项指标，并明确其项目约定属性和测试环境边界。",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-refuse-001",
+      "enabled": true,
+      "question": "这个项目的合同金额和整体预算分别是多少？",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明当前项目资料没有提供合同金额或项目预算，无法依据现有资料给出具体数字。",
+      "tags": [
+        "REFUSE",
+        "合同金额",
+        "项目预算",
+        "资料未定义"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "九份正式资料没有记录合同金额、预算或其他金额信息。",
+      "allowed_response_scope": "可以说明当前资料未定义合同金额和预算；不能推测区间、币种或具体数字。",
+      "fabrication_definition": "给出任何合同金额、预算数字、估算区间或声称存在未记录的报价，均属于编造。",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-refuse-002",
+      "enabled": true,
+      "question": "用户提交退款申请后，一般会在几天内到账？",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明当前资料没有定义退款具体到账时长，无法给出天数。",
+      "tags": [
+        "REFUSE",
+        "退款时长",
+        "资料未定义"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "scope-and-requirements.md 明确写明退款具体到账时长当前资料未定义。",
+      "allowed_response_scope": "可以说明系统支持提交退款申请和查看退款状态，并指出到账时长待后续确认；不能给出具体天数。",
+      "fabrication_definition": "依据常识、支付平台经验或其他项目给出具体退款天数，属于资料外补充和编造。",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-refuse-003",
+      "enabled": true,
+      "question": "旧会员数据重复或缺失这个风险由谁负责，最终会采用什么处理方案？",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明当前资料没有定义该风险的负责人和最终处理方案，二者都待后续确认。",
+      "tags": [
+        "REFUSE",
+        "风险负责人",
+        "处理方案",
+        "资料未定义"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "risk-register.md 对R-01明确说明负责人、风险等级和最终处理方案当前资料未定义。",
+      "allowed_response_scope": "可以概述该风险的可能表现和影响，并说明负责人及方案待确认；不能指定人员、部门或处理步骤。",
+      "fabrication_definition": "给出具体负责人、部门归属、审批人或确定的治理方案，均属于没有资料依据的编造。",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-refuse-004",
+      "enabled": true,
+      "question": "外卖配送已经确定在哪个版本上线，具体日期是什么时候？",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明外卖配送只被确认移出本期，当前资料没有承诺后续开发版本或具体上线日期。",
+      "tags": [
+        "REFUSE",
+        "外卖配送",
+        "未来计划",
+        "范围边界"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "scope-and-requirements.md 与 change-log.md 都强调本期不做不等于未来承诺，且不承诺外卖配送的后续开发日期。",
+      "allowed_response_scope": "可以说明本期只支持到店自取、外卖配送已于2032年8月24日移出本期；不能推测未来版本或日期。",
+      "fabrication_definition": "把排除项解释成已排期功能，或给出任何未来版本号、开发时间和上线日期，均属于编造。",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-refuse-005",
+      "enabled": true,
+      "question": "小程序上线后预计能让销售额增长多少？客户明年还会继续和星河数字合作吗？",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明当前资料没有提供上线后的销售增长预测，也没有记录客户未来续约或继续合作的决定，无法作出判断。",
+      "tags": [
+        "REFUSE",
+        "销售增长",
+        "客户续约",
+        "未来商业结果"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "九份正式资料只记录项目目标、范围、里程碑、风险和验收信息，没有销售预测、续约承诺或其他未来商业结果。",
+      "allowed_response_scope": "可以说明项目目标和当前交付时间线；不能量化销售增长，也不能预测或承诺客户续约。",
+      "fabrication_definition": "给出销售增长比例、收入数字、续约概率或声称双方已决定继续合作，均属于编造。",
+      "todo_reason": ""
+    },
+    {
+      "id": "project-answer-011",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-012",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-013",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-014",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-015",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-016",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-017",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-018",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-019",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-answer-020",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "ANSWER"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-refuse-006",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "REFUSE"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-refuse-007",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "REFUSE"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-refuse-008",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "REFUSE"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-refuse-009",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "REFUSE"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    },
+    {
+      "id": "project-refuse-010",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": [
+        "TODO",
+        "REFUSE"
+      ],
+      "expected_document_rationale": "",
+      "refusal_rationale": "",
+      "allowed_response_scope": "",
+      "fabrication_definition": "",
+      "todo_reason": "为兼容现有30槽位校验规则保留；后续题目需要另行设计并人工确认。"
+    }
+  ]
+}
