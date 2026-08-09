@@ -1,0 +1,347 @@
+app:
+  description: ''
+  icon: 🤖
+  icon_background: '#FFEAD5'
+  icon_type: emoji
+  mode: advanced-chat
+  name: 知源-大一微积分问答
+  use_icon_as_answer_icon: false
+dependencies:
+- current_identifier: null
+  type: marketplace
+  value:
+    marketplace_plugin_unique_identifier: langgenius/tongyi:0.2.8@4805b0ea347d2b0b40352afb28e99f441710aa63747d5374fe823576244f788c
+    version: null
+kind: app
+version: 0.7.0
+workflow:
+  conversation_variables: []
+  environment_variables: []
+  features:
+    file_upload:
+      allowed_file_extensions:
+      - .JPG
+      - .JPEG
+      - .PNG
+      - .GIF
+      - .WEBP
+      - .SVG
+      allowed_file_types:
+      - image
+      allowed_file_upload_methods:
+      - local_file
+      - remote_url
+      enabled: false
+      fileUploadConfig:
+        attachment_image_file_size_limit: 2
+        audio_file_size_limit: 50
+        batch_count_limit: 5
+        file_size_limit: 15
+        file_upload_limit: 20
+        image_file_batch_limit: 10
+        image_file_size_limit: 10
+        single_chunk_attachment_limit: 10
+        video_file_size_limit: 100
+        workflow_file_upload_limit: 10
+      image:
+        enabled: false
+        number_limits: 3
+        transfer_methods:
+        - local_file
+        - remote_url
+      number_limits: 3
+    opening_statement: ''
+    retriever_resource:
+      enabled: true
+    sensitive_word_avoidance:
+      enabled: false
+    speech_to_text:
+      enabled: false
+    suggested_questions: []
+    suggested_questions_after_answer:
+      enabled: false
+    text_to_speech:
+      enabled: false
+      language: ''
+      voice: ''
+  graph:
+    edges:
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: llm
+        targetType: answer
+      id: llm-answer
+      selected: false
+      source: llm
+      sourceHandle: source
+      target: answer
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: start
+        targetType: knowledge-retrieval
+      id: 1786026665959-source-1786029006200-target
+      selected: false
+      source: '1786026665959'
+      sourceHandle: source
+      target: '1786029006200'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: knowledge-retrieval
+        targetType: if-else
+      id: 1786029006200-source-1786030142285-target
+      selected: false
+      source: '1786029006200'
+      sourceHandle: source
+      target: '1786030142285'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: llm
+      id: 1786030142285-true-llm-target
+      selected: false
+      source: '1786030142285'
+      sourceHandle: 'true'
+      target: llm
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    - data:
+        isInIteration: false
+        isInLoop: false
+        sourceType: if-else
+        targetType: answer
+      id: 1786030142285-false-1786031023879-target
+      source: '1786030142285'
+      sourceHandle: 'false'
+      target: '1786031023879'
+      targetHandle: target
+      type: custom
+      zIndex: 0
+    nodes:
+    - data:
+        selected: false
+        title: 用户输入
+        type: start
+        variables: []
+      height: 72
+      id: '1786026665959'
+      position:
+        x: -24
+        y: 217
+      positionAbsolute:
+        x: -24
+        y: 217
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 242
+      zIndex: 0
+    - data:
+        context:
+          enabled: true
+          variable_selector:
+          - '1786029006200'
+          - result
+        memory:
+          query_prompt_template: '{{#sys.query#}}
+
+
+            {{#sys.files#}}'
+          role_prefix:
+            assistant: ''
+            user: ''
+          window:
+            enabled: false
+            size: 10
+        model:
+          completion_params:
+            temperature: 0.7
+          mode: chat
+          name: qwen3.6-flash-2026-04-16
+          provider: langgenius/tongyi/tongyi
+        prompt_template:
+        - id: a6c509f2-c40c-4038-8cb2-e5d7537fa21b
+          role: system
+          text: '你是一名大一微积分学习助手。
+
+
+            请根据提供的课程资料回答用户问题。
+
+            以下是本次从课程知识库中检索到的资料：
+
+
+            【课程资料】
+
+            {{#context#}}
+
+            要求：
+
+            1. 优先解释概念和推理过程。
+
+            2. 回答必须忠于检索到的资料。
+
+            3. 不得编造考试内容、课程要求或不存在的答案。
+
+            4. 如果资料不足，请明确说明“当前课程资料中没有找到足够依据”。
+
+            5. 内容仅供学习参考。'
+        - id: 5a24c313-e7b6-4a89-a79c-006da50021d4
+          role: user
+          text: '涉及数学公式时，请使用标准LaTeX格式：
+
+            1. 行内公式使用 $...$。
+
+            2. 独立公式使用 $$...$$。
+
+            3. 不要把数学公式放进代码块。
+
+            4. 不要使用无法被Markdown和KaTeX解析的自定义公式格式。'
+        selected: true
+        title: LLM
+        type: llm
+        vision:
+          enabled: false
+      height: 87
+      id: llm
+      position:
+        x: 766
+        y: 312
+      positionAbsolute:
+        x: 766
+        y: 312
+      selected: true
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        answer: '{{#llm.text#}}'
+        selected: false
+        title: 直接回复
+        type: answer
+        variables: []
+      height: 101
+      id: answer
+      position:
+        x: 1018.0000000000001
+        y: 440
+      positionAbsolute:
+        x: 1018.0000000000001
+        y: 440
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        dataset_ids:
+        - Pu750DkRyk6JtmFqzEM72FICinquQgQKgV7WDu2xRN6I/6D85rrTU9TWVvwX8JFM
+        multiple_retrieval_config:
+          reranking_enable: false
+          reranking_mode: weighted_score
+          score_threshold: 0.5
+          top_k: 4
+          weights:
+            keyword_setting:
+              keyword_weight: 0
+            vector_setting:
+              embedding_model_name: text-embedding-v4
+              embedding_provider_name: langgenius/tongyi/tongyi
+              vector_weight: 1
+            weight_type: customized
+        query_attachment_selector: []
+        query_variable_selector:
+        - '1786026665959'
+        - sys.query
+        retrieval_mode: multiple
+        selected: false
+        title: 知识检索
+        type: knowledge-retrieval
+      height: 51
+      id: '1786029006200'
+      position:
+        x: 291
+        y: 184.99999999999997
+      positionAbsolute:
+        x: 291
+        y: 184.99999999999997
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        cases:
+        - case_id: 'true'
+          conditions:
+          - comparison_operator: not empty
+            id: d21c1300-02da-4c73-ba77-0229766a11b5
+            value: ''
+            varType: array[object]
+            variable_selector:
+            - '1786029006200'
+            - result
+          id: 'true'
+          logical_operator: and
+        selected: false
+        title: 条件分支
+        type: if-else
+      height: 123
+      id: '1786030142285'
+      position:
+        x: 461.0000000000001
+        y: 334
+      positionAbsolute:
+        x: 461.0000000000001
+        y: 334
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    - data:
+        answer: '当前课程资料中没有找到足够依据，因此暂时无法给出可靠回答。你可以调整问题后重试。
+
+
+          内容仅供学习参考。'
+        selected: false
+        title: 直接回复 2
+        type: answer
+        variables: []
+      height: 131
+      id: '1786031023879'
+      position:
+        x: 679
+        y: 513
+      positionAbsolute:
+        x: 679
+        y: 513
+      selected: false
+      sourcePosition: right
+      targetPosition: left
+      type: custom
+      width: 241
+      zIndex: 0
+    viewport:
+      x: -274
+      y: -111
+      zoom: 1
+  rag_pipeline_variables: []

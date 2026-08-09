@@ -1,0 +1,53 @@
+# dependencies
+/node_modules
+/.npm-cache
+
+# Next.js
+/.next
+/out
+*.tsbuildinfo
+
+# local logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# local environment files (may contain secrets)
+.env*
+!.env.example
+!.env.local.example
+**/.env.backup
+**/.env.*.backup
+
+# credentials and certificates
+*.pem
+*.key
+*.p12
+*.pfx
+*.crt
+
+# local course materials (not approved for public release)
+/data/resources/**
+!/data/resources/README.md
+*.pdf
+
+# local RAG evaluation outputs
+/evaluation/results/*
+!/evaluation/results/.gitkeep
+/evaluation/rag-test-cases.local.json
+
+# temporary and tool-generated files
+/tmp
+/.tmp
+/coverage
+*.tmp
+*.temp
+*.bak
+*.backup
+*.swp
+~$*
+
+# operating system files
+.DS_Store
+Thumbs.db

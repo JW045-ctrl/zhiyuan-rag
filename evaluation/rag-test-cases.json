@@ -1,0 +1,278 @@
+{
+  "$schema": "./rag-test-cases.schema.json",
+  "version": "1.0",
+  "course": "大一微积分",
+  "description": "公开 v0.1 的 30 题 RAG 测试槽位。20 道有资料答案题、10 道应拒答题；内容经人工确认后再启用。",
+  "cases": [
+    {
+      "id": "calc-answer-001",
+      "enabled": true,
+      "question": "泰勒展开的定义和拉格朗日余项公式是什么？",
+      "expected_behavior": "ANSWER",
+      "expected_documents": ["lecture-22.pdf", "solution-10.pdf"],
+      "reference_answer": "函数在 x=a 附近的 n 阶泰勒多项式由各阶导数 f^(k)(a)/k! 作为系数构成；拉格朗日余项为 R_n(x)=f^(n+1)(ξ)(x-a)^(n+1)/(n+1)!，其中 ξ 位于 a 与 x 之间。",
+      "tags": ["seed-smoke", "power-taylor-series", "remainder"]
+    },
+    {
+      "id": "calc-answer-002",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-003",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-004",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-005",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-006",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-007",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-008",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-009",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-010",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-011",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-012",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-013",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-014",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-015",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-016",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-017",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-018",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-019",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-answer-020",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "ANSWER",
+      "expected_documents": [],
+      "reference_answer": "",
+      "tags": ["TODO", "answer"]
+    },
+    {
+      "id": "calc-refuse-001",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-002",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-003",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-004",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-005",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-006",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-007",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-008",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-009",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    },
+    {
+      "id": "calc-refuse-010",
+      "enabled": false,
+      "question": "",
+      "expected_behavior": "REFUSE",
+      "expected_documents": [],
+      "reference_answer": "明确说明课程资料中没有足够依据，并且不编造答案。",
+      "tags": ["TODO", "refuse"]
+    }
+  ]
+}
