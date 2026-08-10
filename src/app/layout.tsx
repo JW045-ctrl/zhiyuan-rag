@@ -5,7 +5,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "知源",
-  description: "基于课程资料的大学学习助手",
+  description: "基于项目资料与真实引用的项目交付知识助手",
 };
 
 export default function RootLayout({

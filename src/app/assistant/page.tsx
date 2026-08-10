@@ -3,8 +3,9 @@ import type { Metadata } from "next";
 import { AssistantClient } from "./assistant-client";
 
 export const metadata: Metadata = {
-  title: "AI 学习助手｜知源",
-  description: "基于大一微积分课程资料回答问题并展示真实检索来源。",
+  title: "项目知识助手｜知源",
+  description:
+    "面向悦享会员2.0项目资料回答问题，并展示资料依据。",
 };
 
 export default function AssistantPage() {

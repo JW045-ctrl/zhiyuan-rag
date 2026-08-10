@@ -8,7 +8,6 @@ import {
 import type { DifyRetrieverResource } from "@/lib/dify/types";
 import {
   ArrowUp,
-  BookOpenText,
   FileText,
   LoaderCircle,
   RotateCcw,
@@ -27,6 +26,12 @@ import styles from "./assistant.module.css";
 
 const REQUEST_TIMEOUT_MS = 90_000;
 const MAX_QUERY_LENGTH = 4_000;
+const SUGGESTED_QUESTIONS = [
+  "项目目前处于什么阶段？",
+  "外卖配送为什么移出本期？",
+  "优惠券最终叠加规则是什么？",
+  "客户验收版本计划什么时候提交？",
+];
 
 type RequestStatus =
   | "idle"
@@ -73,6 +78,16 @@ export function AssistantClient() {
     },
     [],
   );
+
+  useEffect(() => {
+    const initialQuestion = new URLSearchParams(window.location.search)
+      .get("question")
+      ?.trim();
+
+    if (initialQuestion) {
+      setQuery(initialQuestion.slice(0, MAX_QUERY_LENGTH));
+    }
+  }, []);
 
   const clearAssistant = () => {
     activeRequestRef.current += 1;
@@ -199,6 +214,15 @@ export function AssistantClient() {
     }
   };
 
+  const useSuggestedQuestion = (suggestion: string) => {
+    if (isBusy) {
+      return;
+    }
+
+    setQuery(suggestion);
+    window.requestAnimationFrame(() => textareaRef.current?.focus());
+  };
+
   return (
     <div className={styles.pageShell}>
       <header className={styles.topbar}>
@@ -209,23 +233,32 @@ export function AssistantClient() {
             </span>
             <span>知源</span>
           </Link>
-          <span className={styles.courseLabel}>大一微积分</span>
+          <nav className={styles.topbarNav} aria-label="项目导航">
+            <Link href="/">项目概览</Link>
+            <span className={styles.projectLabel}>悦享会员2.0</span>
+          </nav>
         </div>
       </header>
 
       <main className={styles.workspace}>
-        <section className={styles.intro} aria-labelledby="assistant-title">
+        <section className={styles.compactHeader} aria-labelledby="assistant-title">
           <div>
-            <p className={styles.kicker}>AI 学习助手</p>
-            <h1 id="assistant-title">先查资料，再回答。</h1>
-            <p className={styles.introCopy}>
-              面向已上传的大一微积分课件、习题与答案。回答结束后，你可以直接核对本次检索到的原文片段。
+            <p className={styles.kicker}>悦享会员2.0</p>
+            <h1 id="assistant-title">项目知识助手</h1>
+            <p className={styles.headerCopy}>
+              查询悦享会员2.0的需求、里程碑、会议决策、需求变更、风险和验收标准。
             </p>
           </div>
-          <div className={styles.trustNote}>
-            <ShieldCheck aria-hidden="true" size={20} />
-            <span>来源由 Dify 检索结果直接提供，不推测页码或章节。</span>
-          </div>
+          <dl className={styles.statusSummary}>
+            <div>
+              <dt>当前阶段</dt>
+              <dd>内部测试、缺陷修复与客户验收准备</dd>
+            </div>
+            <div>
+              <dt>知识更新至</dt>
+              <dd>2032年10月5日</dd>
+            </div>
+          </dl>
         </section>
 
         <form className={styles.composer} onSubmit={submitQuestion}>
@@ -242,7 +275,7 @@ export function AssistantClient() {
             disabled={isBusy}
             onChange={(event) => setQuery(event.target.value)}
             onKeyDown={handleInputKeyDown}
-            placeholder="例如：什么是幂级数的收敛半径？"
+            placeholder="例如：客户验收版本计划什么时候提交？"
           />
           <div className={styles.composerFooter}>
             <span className={styles.keyboardHint}>
@@ -278,12 +311,29 @@ export function AssistantClient() {
           </div>
         </form>
 
+        <section className={styles.suggestions} aria-labelledby="suggestions-title">
+          <p id="suggestions-title">示例问题</p>
+          <ul>
+            {SUGGESTED_QUESTIONS.map((suggestion) => (
+              <li key={suggestion}>
+                <button
+                  type="button"
+                  disabled={isBusy}
+                  onClick={() => useSuggestedQuestion(suggestion)}
+                >
+                  {suggestion}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </section>
+
         {status === "idle" ? (
           <section className={styles.emptyState} aria-label="等待提问">
-            <BookOpenText aria-hidden="true" size={25} />
+            <ShieldCheck aria-hidden="true" size={22} />
             <div>
-              <h2>从课程资料开始</h2>
-              <p>输入一个明确的知识点、定义或习题问题。</p>
+              <h2>回答会附带资料依据</h2>
+              <p>引用来自本次实际检索到的项目文件与原文片段，不推测资料中未记录的事实。</p>
             </div>
           </section>
         ) : (
@@ -296,7 +346,7 @@ export function AssistantClient() {
               <div className={styles.sectionHeading}>
                 <div>
                   <span className={styles.sectionIndex}>回答</span>
-                  <h2>AI 解释</h2>
+                  <h2>项目回答</h2>
                 </div>
                 <StatusLabel status={status} />
               </div>
@@ -315,7 +365,7 @@ export function AssistantClient() {
                     <i />
                     <i />
                   </span>
-                  正在检索课程资料…
+                  正在检索项目资料…
                 </div>
               ) : null}
 
@@ -349,7 +399,7 @@ export function AssistantClient() {
               <div className={styles.sectionHeading}>
                 <div>
                   <span className={styles.sectionIndex}>依据</span>
-                  <h2 id="sources-title">真实检索来源</h2>
+                  <h2 id="sources-title">资料依据</h2>
                 </div>
                 {(status === "completed" || status === "empty") && (
                   <span className={styles.sourceCount}>{sources.length} 条</span>
@@ -358,14 +408,14 @@ export function AssistantClient() {
 
               {isBusy ? (
                 <p className={styles.sourcePlaceholder}>
-                  回答结束后显示本次检索来源。
+                  回答结束后显示本次资料依据。
                 </p>
               ) : null}
 
               {(status === "completed" || status === "empty") &&
               sources.length === 0 ? (
                 <p className={styles.noSources}>
-                  本次回答没有返回可展示的检索来源。
+                  本次回答没有返回可展示的资料依据。
                 </p>
               ) : null}
 
@@ -382,24 +432,27 @@ export function AssistantClient() {
                         <FileText aria-hidden="true" size={18} />
                         <h3>{source.document_name}</h3>
                       </div>
-                      <dl className={styles.sourceMeta}>
-                        <div>
-                          <dt>score</dt>
-                          <dd>{String(source.score)}</dd>
-                        </div>
-                        <div>
-                          <dt>document_id</dt>
-                          <dd>{source.document_id}</dd>
-                        </div>
-                        <div>
-                          <dt>segment_id</dt>
-                          <dd>{source.segment_id}</dd>
-                        </div>
-                      </dl>
                       <div className={styles.sourceContent}>
-                        <span>content 原文片段</span>
+                        <span>原文片段</span>
                         <p>{source.content}</p>
                       </div>
+                      <details className={styles.sourceDetails}>
+                        <summary>查看检索详情</summary>
+                        <dl className={styles.sourceMeta}>
+                          <div>
+                            <dt>score</dt>
+                            <dd>{String(source.score)}</dd>
+                          </div>
+                          <div>
+                            <dt>document_id</dt>
+                            <dd>{source.document_id}</dd>
+                          </div>
+                          <div>
+                            <dt>segment_id</dt>
+                            <dd>{source.segment_id}</dd>
+                          </div>
+                        </dl>
+                      </details>
                     </li>
                   ))}
                 </ol>
@@ -408,7 +461,7 @@ export function AssistantClient() {
           </section>
         )}
 
-        <p className={styles.disclaimer}>内容仅供学习参考，请结合课程资料核对。</p>
+        <p className={styles.disclaimer}>内容仅供项目演示与资料核对，请以已确认的项目文件为准。</p>
       </main>
     </div>
   );
