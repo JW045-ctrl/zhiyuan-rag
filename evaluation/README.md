@@ -49,3 +49,15 @@ npm.cmd run rag:evaluate
 当前30题中启用15题：10道 ANSWER 和5道 REFUSE。v0.1 已冻结题目与严格证据标准，不再通过改题迎合当前结果。
 
 最终公开报告见 [`docs/v0.1-final-evaluation.md`](../docs/v0.1-final-evaluation.md)。公开报告只保留指标、失败分类和必要说明；包含课程原文的原始 JSON 与 Markdown 继续只保存在本地。
+
+## v0.2 独立企业项目测试集
+
+v0.2不复用或覆盖微积分测试题，独立测试集位于：
+
+```text
+knowledge-packs/project-delivery-demo/evaluation/project-delivery-test-cases.json
+```
+
+该文件同样保留30个槽位，当前启用10道ANSWER和5道REFUSE。知识包、最终冻结配置、Baseline到exp02实验过程、人工严格评估结果和适用边界见 [`knowledge-packs/project-delivery-demo/README.md`](../knowledge-packs/project-delivery-demo/README.md)。
+
+v0.2的5道REFUSE题人工复核均通过，但现有自动检测器没有覆盖“未提供”“未定义”“没有具体日期”和“待确认”等表达，因此自动结果为0/5。公开结论同时保留自动结果和人工复核结果，不把评估工具的短语覆盖问题解释为RAG拒答能力为0/5。
